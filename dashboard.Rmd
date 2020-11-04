@@ -1,21 +1,19 @@
 ---
-title: "Plotly"
-output:
-  toc: true
-  toc_float: true
+title: "Dashboard"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: columns
+    vertical_layout: fill
+    source: embed
 ---
 
-### Data and code used to create plots in Dashboard.
-
-I am using data from the NY NOAA dataset.
-
-```{r}
+```{r setup, include=FALSE}
+library(flexdashboard)
 library(tidyverse)
 library(p8105.datasets)
 library(plotly)
 ```
 
-Load and create subset of NY NOAA for analysis.
 ```{r}
 data("ny_noaa")
 
@@ -47,7 +45,11 @@ ny_noaa_fin =
 ```
 
 
-## Plot 1: Scatterplot
+Column {data-width=650}
+-----------------------------------------------------------------------
+
+### Chart A
+
 ```{r}
 ny_noaa_fin %>%
   mutate(text_label = str_c("Station ID: ", id, "\nMonth: ", month)) %>% 
@@ -56,18 +58,19 @@ ny_noaa_fin %>%
         color = ~month, text = ~text_label, alpha = 0.5)
 ```
 
+Column {data-width=350}
+-----------------------------------------------------------------------
 
-## Plot 2: Box Plot
+### Chart B
 
-Plot max temperatures by station.
 ```{r}
 ny_noaa_fin %>%
   mutate(id = fct_reorder(id, tmax)) %>% 
   plot_ly(x = ~id, y = ~tmax, color = ~id, type = "box", colors = "viridis")
 ```
 
+### Chart C
 
-## Plot 3: Bar Plot
 ```{r}
 ny_noaa_fin %>%
   count(id) %>%
