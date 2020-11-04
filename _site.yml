@@ -12,4 +12,5 @@ navbar:
     - icon: fa-linkedin fa-lg
       href: https://www.linkedin.com/in/mayabunyan/
 output:
-  html_document
+  html_document:
+  theme: cerulean
