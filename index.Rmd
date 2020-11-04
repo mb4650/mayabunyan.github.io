@@ -1,7 +1,13 @@
 ---
-title: "Holy cow!"
+title: "Maya Bunyan's Website"
+output:
+  toc: true
+  toc_float: true
 ---
 
-### I have a webpage!
+### Welcome to my Webpage!
 
-And I can put all kinds of stuff on it!
+
+Hello!
+
+Welcome to my webpage. This website will include information about myself, some links to projects I have worked on, as well as an interactive dashboard. Please click the links above for more information!
