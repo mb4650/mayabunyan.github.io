@@ -1,0 +1,82 @@
+---
+title: "Plotly"
+output:
+  toc: true
+  toc_float: true
+---
+
+### Data and code used to create plots in Dashboard.
+
+I am using data from the NY NOAA dataset.
+
+```{r}
+library(tidyverse)
+library(p8105.datasets)
+library(plotly)
+```
+
+Load and create subset of NY NOAA for analysis.
+```{r}
+data("ny_noaa")
+
+ny_noaa_sub = 
+  ny_noaa %>%
+    separate(
+    col = date, 
+    into = c("year", "month", "day"),
+    convert = TRUE) %>%
+  mutate(
+    tmax = as.numeric(tmax),
+    tmax = tmax/10,
+    tmin = as.numeric(tmin),
+    tmin = tmin/10,
+    prcp = prcp/10
+  ) %>%
+  select(id, year, month, prcp, tmax, tmin) %>%
+  filter(year == 2010) %>%
+  drop_na()
+
+random_stations = 
+  ny_noaa_sub %>%
+  select(id) %>%
+  distinct(id) %>%
+  sample_n(50)
+
+ny_noaa_fin = 
+  inner_join(random_stations, ny_noaa_sub, by = "id")
+```
+
+
+## Plot 1: Scatterplot
+```{r}
+ny_noaa_fin %>%
+  group_by(id, month)%>%
+  summarize(
+    mean_tmax = mean(tmax, na.rm = TRUE),
+    mean_tmin = mean(tmin, na.rm = TRUE)) %>%
+  mutate(text_label = str_c("Station ID: ", id, "\nMonth: ", month)) %>% 
+  plot_ly(
+        x = ~mean_tmax, y = ~mean_tmin, type = "scatter", mode = "markers", 
+        color = ~month, text = ~text_label, alpha = 0.5)
+  
+```
+
+
+## Plot 2: Box Plot
+
+Plot max temperatures by station.
+```{r}
+ny_noaa_fin %>%
+  mutate(id = fct_reorder(id, tmax)) %>% 
+  plot_ly(x = ~id, y = ~tmax, color = ~id, type = "box", colors = "viridis")
+```
+
+
+## Plot 3: Bar Plot
+```{r}
+ny_noaa_fin %>%
+  count(id) %>%
+  mutate(id = fct_reorder(id, n)) %>% 
+  plot_ly(x = ~id, y = ~n, color = ~id, type = "bar", colors = "viridis")
+```
+
