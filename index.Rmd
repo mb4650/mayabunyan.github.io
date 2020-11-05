@@ -1,8 +1,5 @@
 ---
 title: "Maya Bunyan's Website"
-output:
-  toc: true
-  toc_float: true
 ---
 
 ### Welcome to my Webpage!

@@ -1,8 +1,5 @@
 ---
 title: "Plotly"
-output:
-  toc: true
-  toc_float: true
 ---
 
 ### Data and code used to create plots in Dashboard.
@@ -58,8 +55,6 @@ ny_noaa_fin %>%
 
 
 ## Plot 2: Box Plot
-
-Plot max temperatures by station.
 ```{r}
 ny_noaa_fin %>%
   mutate(id = fct_reorder(id, tmax)) %>% 
